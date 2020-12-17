@@ -6,7 +6,7 @@
 
 import Foundation
 
-protocol RESTEndpoint {
+protocol Endpoint {
     var baseUrl: String { get }
     var path: String { get }
     var parameters: [ParameterType] { get }
@@ -39,17 +39,12 @@ extension ParameterType: Equatable {
     }
 }
 
-extension RESTEndpoint {
+extension Endpoint {
+    
     var timeout: TimeInterval { 10.0 }
     
     func getUrlRequest() throws -> URLRequest?  {
-        nil
-    }
-    
-    //OR
-    
-    var urlRequest: URLRequest? {
-        guard var url = URL(string: baseUrl + path), var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+        guard var url = URL(string: baseUrl + path), var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { throw URLError(.badURL) }
         
         urlComponents.queryItems = [URLQueryItem]()
         var jsonParam: Data?
@@ -62,7 +57,7 @@ extension RESTEndpoint {
             }
             
             if case let .json(jsonData) = param {
-                if jsonData == nil { return nil } //serialisation error!
+                if jsonData == nil { throw URLError(.badURL) }
                 jsonParam = jsonData
             }
         }
@@ -80,5 +75,9 @@ extension RESTEndpoint {
             req.httpBody = json
         }
         return req
+    }
+        
+    var urlRequest: URLRequest? {
+        try? getUrlRequest()
     }
 }

@@ -23,7 +23,7 @@ struct API {
     
 }
 
-extension API.Endpoint: RESTEndpoint {
+extension API.Endpoint: Endpoint {
     var baseUrl: String {
         ""
     }
