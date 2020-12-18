@@ -10,7 +10,7 @@ import UIKit
 extension UIScrollView {
     
     func hasScrolledToBottom() -> Bool {
-        bounds.size.height + contentOffset.y <= contentSize.height
+        bounds.size.height + contentOffset.y >= contentSize.height
     }
     
     func scrollToBottom(animated: Bool = true) {
