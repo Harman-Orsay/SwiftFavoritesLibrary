@@ -10,7 +10,7 @@ import Combine
 
 struct API {
     
-    enum Error: LocalizedError {
+    enum Error: LocalizedError { //if API is not a protocol
         
     }
     
