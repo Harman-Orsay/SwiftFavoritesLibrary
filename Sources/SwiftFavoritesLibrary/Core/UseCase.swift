@@ -17,6 +17,8 @@ protocol UseCase {
 
 typealias CancellableUseCase = UseCase & Cancellable
 
+
+//USAGE
 class DemoCancellableUseCase: CancellableUseCase {
     
     typealias Failure = NSError
